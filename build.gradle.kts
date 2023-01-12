@@ -20,6 +20,10 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+	implementation("org.jetbrains.exposed:exposed-core:0.40.1")
+	implementation("org.jetbrains.exposed:exposed-dao:0.36.1")
+	implementation("org.jetbrains.exposed:exposed-jdbc:0.36.1")
+	implementation("mysql:mysql-connector-java:8.0.26")
 	testImplementation("org.assertj:assertj-core")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
