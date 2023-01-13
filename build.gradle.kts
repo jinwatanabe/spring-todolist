@@ -24,6 +24,9 @@ dependencies {
 	implementation("org.jetbrains.exposed:exposed-dao:0.40.1")
 	implementation("org.jetbrains.exposed:exposed-jdbc:0.40.1")
 	implementation("mysql:mysql-connector-java:8.0.26")
+	implementation("org.springframework:spring-tx")
+	implementation("org.springframework.boot:spring-boot-starter-validation")
+	implementation("javax.validation:validation-api:2.0.1.Final")
 	testImplementation("org.assertj:assertj-core")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

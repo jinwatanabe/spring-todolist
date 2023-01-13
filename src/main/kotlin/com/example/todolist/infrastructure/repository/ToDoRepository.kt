@@ -22,6 +22,16 @@ class ToDoRepositoy: ToDoRepository {
             ToDoEntity.all().map { ToDoModel(it) }
         }
     }
+
+    override fun register(toDo: ToDo) {
+        createSessionFactory()
+        transaction {
+            ToDoEntity.new {
+                title = toDo.title.toString()
+                done = toDo.done
+            }
+        }
+    }
 }
 
 fun createSessionFactory() {
