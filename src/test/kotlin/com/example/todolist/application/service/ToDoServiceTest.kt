@@ -22,5 +22,4 @@ class ToDoServiceTest() {
         assert(toDoList[0].title == "test")
         assert(!toDoList[0].done)
     }
-
 }
