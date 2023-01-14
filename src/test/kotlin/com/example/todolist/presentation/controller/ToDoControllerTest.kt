@@ -2,6 +2,7 @@ import com.example.todolist.ToDoController
 import com.example.todolist.TodolistApplication
 import com.example.todolist.application.service.ToDoService
 import com.example.todolist.domain.model.ToDo
+import com.example.todolist.presentation.form.RegisterToDoRequest
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
@@ -10,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
@@ -40,6 +42,27 @@ class ToDoControllerTest(@Autowired val mockMvc: MockMvc) {
                             "done": false
                         }
                     ]
+                }
+            """.trimIndent()))
+    }
+
+    @Test
+    fun `createToDo returns a list of todos`() {
+        Mockito.`when`(toDoService.register(ToDo(1,"test", false))).then{ }
+        mockMvc.perform(
+                post("/todo")
+                    .contentType("application/json")
+                    .content("""
+                        {
+                            "title": "test"
+                        }
+                    """.trimIndent())
+            )
+            .andExpect(status().isOk)
+            .andExpect(content().json("""
+                {
+                    "message": "作成しました",
+                    "status": 200
                 }
             """.trimIndent()))
     }
