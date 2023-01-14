@@ -26,7 +26,7 @@ dependencies {
 	implementation("mysql:mysql-connector-java:8.0.26")
 	implementation("org.springframework:spring-tx")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
-	implementation("javax.validation:validation-api:2.0.1.Final")
+	implementation("org.springframework.boot:spring-boot-starter-aop")
 	testImplementation("org.assertj:assertj-core")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
