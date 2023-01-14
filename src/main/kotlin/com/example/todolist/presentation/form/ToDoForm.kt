@@ -15,4 +15,10 @@ data class ToDoInfo(
 data class RegisterToDoRequest(
     @field:NotBlank
     val title: String,
+    val done: Boolean = false
+)
+
+data class UpdateToDoRequest(
+    val title: String ?= null,
+    val done: Boolean ?= null
 )
