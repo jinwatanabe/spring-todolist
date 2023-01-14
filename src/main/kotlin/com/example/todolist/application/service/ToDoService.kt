@@ -18,4 +18,14 @@ class ToDoService(
     fun register(toDo: ToDo) {
         toDoRepository.register(toDo)
     }
+
+    fun findById(id: Long): ToDo? {
+        val toDo = toDoRepository.findById(id)
+        return toDo?.let { ToDo(it.id, it.title, it.done) }
+    }
+
+    @Transactional
+    fun update(toDo: ToDo) {
+        toDoRepository.update(toDo)
+    }
 }

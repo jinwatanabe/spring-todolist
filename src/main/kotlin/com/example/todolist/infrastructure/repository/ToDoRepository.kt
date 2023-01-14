@@ -32,6 +32,23 @@ class ToDoRepositoy: ToDoRepository {
             }
         }
     }
+
+    override fun update(toDo: ToDo) {
+        createSessionFactory()
+        transaction {
+            ToDoEntity.findById(toDo.id)?.apply {
+                this.title = toDo.title.toString()
+                this.done = toDo.done
+            }
+        }
+    }
+
+    override fun findById(id: Long): ToDoModel? {
+        createSessionFactory()
+        return transaction {
+            ToDoEntity.findById(id)?.let { ToDoModel(it) }
+        }
+    }
 }
 
 fun createSessionFactory() {

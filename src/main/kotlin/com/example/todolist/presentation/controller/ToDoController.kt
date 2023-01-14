@@ -2,10 +2,7 @@ package com.example.todolist
 
 import com.example.todolist.application.service.ToDoService
 import com.example.todolist.domain.model.ToDo
-import com.example.todolist.presentation.form.GetTodoListResponse
-import com.example.todolist.presentation.form.RegisterToDoRequest
-import com.example.todolist.presentation.form.ResponseForm
-import com.example.todolist.presentation.form.ToDoInfo
+import com.example.todolist.presentation.form.*
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -46,5 +43,23 @@ class ToDoController(
         )
 
         return ResponseEntity(ResponseForm(200,"作成しました"), HttpStatus.OK)
+    }
+
+    @PatchMapping("/todo/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    fun updateToDo(
+        @PathVariable("id") id: Long,
+        @RequestBody request: UpdateToDoRequest,
+    ): ResponseEntity<ResponseForm> {
+        val toDo = toDoService.findById(id) ?: return ResponseEntity(ResponseForm(404, "存在しないIDです"), HttpStatus.NOT_FOUND)
+        toDoService.update(
+            ToDo(
+                toDo.id,
+                request.title ?: toDo.title,
+                request.done ?: toDo.done
+            )
+        )
+
+        return ResponseEntity(ResponseForm(200,"更新しました"), HttpStatus.OK)
     }
 }
