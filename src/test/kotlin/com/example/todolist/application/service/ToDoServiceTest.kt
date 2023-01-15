@@ -34,4 +34,31 @@ class ToDoServiceTest() {
         toDoService.register(toDo)
         Mockito.verify(toDoRepository, atLeastOnce()).register(toDo)
     }
+
+    @Test
+    fun `findById returns a todo`() {
+        val toDo = ToDoModel(1, "test", false)
+        Mockito.`when`(toDoRepository.findById(1)).thenReturn(toDo)
+
+        val toDoInfo = toDoService.findById(1)
+        assert(toDoInfo?.title == "test")
+        assert(!toDoInfo?.done!!)
+    }
+
+    @Test
+    fun `updateToDo updates a todo`() {
+        val toDo = ToDo(1, "test", false)
+        Mockito.`when`(toDoRepository.update(toDo)).then{}
+
+        toDoService.update(toDo)
+        Mockito.verify(toDoRepository, atLeastOnce()).update(toDo)
+    }
+
+    @Test
+    fun `deleteToDo deletes a todo`() {
+        Mockito.`when`(toDoRepository.delete(1)).then{}
+
+        toDoService.delete(1)
+        Mockito.verify(toDoRepository, atLeastOnce()).delete(1)
+    }
 }

@@ -28,4 +28,9 @@ class ToDoService(
     fun update(toDo: ToDo) {
         toDoRepository.update(toDo)
     }
+
+    @Transactional
+    fun delete(id: Long) {
+        toDoRepository.delete(id)
+    }
 }

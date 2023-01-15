@@ -5,6 +5,6 @@ interface ToDoRepository {
     fun findAll(): List<ToDoModel>
     fun register(toDo: ToDo)
     fun update(toDo: ToDo)
-
     fun findById(id: Long): ToDoModel?
+    fun delete(id: Long)
 }
