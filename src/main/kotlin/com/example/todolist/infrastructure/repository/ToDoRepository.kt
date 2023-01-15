@@ -49,6 +49,13 @@ class ToDoRepositoy: ToDoRepository {
             ToDoEntity.findById(id)?.let { ToDoModel(it) }
         }
     }
+
+    override fun delete(id: Long) {
+        createSessionFactory()
+        transaction {
+            ToDoEntity.findById(id)?.delete()
+        }
+    }
 }
 
 fun createSessionFactory() {

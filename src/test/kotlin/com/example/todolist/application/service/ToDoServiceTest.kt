@@ -53,4 +53,12 @@ class ToDoServiceTest() {
         toDoService.update(toDo)
         Mockito.verify(toDoRepository, atLeastOnce()).update(toDo)
     }
+
+    @Test
+    fun `deleteToDo deletes a todo`() {
+        Mockito.`when`(toDoRepository.delete(1)).then{}
+
+        toDoService.delete(1)
+        Mockito.verify(toDoRepository, atLeastOnce()).delete(1)
+    }
 }

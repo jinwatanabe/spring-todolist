@@ -46,7 +46,7 @@ class ToDoControllerTest(@Autowired val mockMvc: MockMvc) {
     }
 
     @Test
-    fun `createToDo returns a list of todos`() {
+    fun `createToDo returns status 200`() {
         Mockito.`when`(toDoService.register(ToDo(1,"test", false))).then{ }
         mockMvc.perform(
                 post("/todo")
@@ -67,7 +67,27 @@ class ToDoControllerTest(@Autowired val mockMvc: MockMvc) {
     }
 
     @Test
-    fun `updateToDo returns a list of todos`() {
+    fun `createToDo returns status 400 when title is empty`() {
+        mockMvc.perform(
+                post("/todo")
+                    .contentType("application/json")
+                    .content("""
+                        {
+                            "title": ""
+                        }
+                    """.trimIndent())
+            )
+            .andExpect(status().isBadRequest)
+            .andExpect(content().json("""
+                {
+                    "message": "タイトルを入力してください",
+                    "status": 400
+                }
+            """.trimIndent()))
+    }
+
+    @Test
+    fun `updateToDo returns status 200`() {
         Mockito.`when`(toDoService.findById(1)).thenReturn(ToDo(1,"test", false))
         Mockito.`when`(toDoService.update(ToDo(1,"test", true))).then{ }
         mockMvc.perform(
@@ -85,6 +105,54 @@ class ToDoControllerTest(@Autowired val mockMvc: MockMvc) {
                 {
                     "message": "更新しました",
                     "status": 200
+                }
+            """.trimIndent()))
+    }
+
+    @Test
+    fun `updateToDo return status 404 when todo is not exist`() {
+        Mockito.`when`(toDoService.findById(10000)).thenReturn(null)
+        mockMvc.perform(
+                patch("/todo/10000")
+                    .contentType("application/json")
+                    .content("""
+                        {
+                            "done": true
+                        }
+                    """.trimIndent())
+            )
+            .andExpect(status().isNotFound)
+            .andExpect(content().json("""
+                {
+                    "message": "存在しないIDです",
+                    "status": 404
+                }
+            """.trimIndent()))
+    }
+
+    @Test
+    fun `deleteToDo return status 200`() {
+        Mockito.`when`(toDoService.findById(1)).thenReturn(ToDo(1, "test", true))
+        Mockito.`when`(toDoService.delete(1)).then{ }
+        mockMvc.perform(delete("/todo/1"))
+            .andExpect(status().isOk)
+            .andExpect(content().json("""
+                {
+                    "message": "削除しました",
+                    "status": 200
+                }
+            """.trimIndent()))
+    }
+
+    @Test
+    fun `deleteToDo return status 404 when todo is not exist`() {
+        Mockito.`when`(toDoService.findById(10000)).thenReturn(null)
+        mockMvc.perform(delete("/todo/10000"))
+            .andExpect(status().isNotFound)
+            .andExpect(content().json("""
+                {
+                    "message": "存在しないIDです",
+                    "status": 404
                 }
             """.trimIndent()))
     }

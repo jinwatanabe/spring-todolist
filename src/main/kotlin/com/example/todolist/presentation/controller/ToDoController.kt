@@ -62,4 +62,15 @@ class ToDoController(
 
         return ResponseEntity(ResponseForm(200,"更新しました"), HttpStatus.OK)
     }
+
+    @DeleteMapping("/todo/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    fun deleteToDo(
+        @PathVariable("id") id: Long,
+    ): ResponseEntity<ResponseForm> {
+        val toDo = toDoService.findById(id) ?: return ResponseEntity(ResponseForm(404, "存在しないIDです"), HttpStatus.NOT_FOUND)
+        toDoService.delete(id)
+
+        return ResponseEntity(ResponseForm(200,"削除しました"), HttpStatus.OK)
+    }
 }
