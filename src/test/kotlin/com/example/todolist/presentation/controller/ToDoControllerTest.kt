@@ -10,8 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
@@ -62,6 +61,29 @@ class ToDoControllerTest(@Autowired val mockMvc: MockMvc) {
             .andExpect(content().json("""
                 {
                     "message": "作成しました",
+                    "status": 200
+                }
+            """.trimIndent()))
+    }
+
+    @Test
+    fun `updateToDo returns a list of todos`() {
+        Mockito.`when`(toDoService.findById(1)).thenReturn(ToDo(1,"test", false))
+        Mockito.`when`(toDoService.update(ToDo(1,"test", true))).then{ }
+        mockMvc.perform(
+                patch("/todo/1")
+                    .contentType("application/json")
+                    .content("""
+                        {
+                            "title": "test",
+                            "done": true
+                        }
+                    """.trimIndent())
+            )
+            .andExpect(status().isOk)
+            .andExpect(content().json("""
+                {
+                    "message": "更新しました",
                     "status": 200
                 }
             """.trimIndent()))
